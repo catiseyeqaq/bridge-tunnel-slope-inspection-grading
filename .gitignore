@@ -1,0 +1,36 @@
+# 模型权重与学习资产（禁传）
+*.npz
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+model_assets/
+offline_runtime/
+
+# 数据集
+datasets/
+data/*.npz
+
+# 凭据
+.env
+.env.*
+*.key
+id_rsa
+id_ed25519
+
+# 运行时
+*.db
+*.db-shm
+*.db-wal
+*.pid
+*.log
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 大文件
+*.tar
+*.tar.gz
+*.zip
+*.whl

@@ -1,0 +1,79 @@
+{
+  "schema": "track4_persistence_update_v1",
+  "created_local": "2026-10-20T01:05:00+08:00",
+  "reason": "Move teacher asset resolution from local NVMe /root to persistent ossfs ~/ so a reboot does not drop the 27B path.",
+  "changed_configs": {
+    "code/code/configs/submission_risk_gate_teacher.yaml": {
+      "path": "code/code/configs/submission_risk_gate_teacher.yaml",
+      "bytes": 1806,
+      "sha256": "bbb1d0537b041a3b74dc1171fecdda1d11b86962dbbd883a65ee3d41abfd67ae"
+    },
+    "code/code/configs/submission_risk_gate_teacher_offline.yaml": {
+      "path": "code/code/configs/submission_risk_gate_teacher_offline.yaml",
+      "bytes": 1770,
+      "sha256": "b0fc51fe23a325caadd7bcb8f37eb3436f63ef8cb6a1556957ca2c41075f3df7"
+    },
+    "code/code/configs/submission_risk_gate_teacher_small.yaml": {
+      "path": "code/code/configs/submission_risk_gate_teacher_small.yaml",
+      "bytes": 1754,
+      "sha256": "fe0992683191e5b0eed921cc35c8ab9a514db4bf7a6578db0757bd93c24c3025"
+    },
+    "code/code/configs/submission_risk_gate_preflight.yaml": {
+      "path": "code/code/configs/submission_risk_gate_preflight.yaml",
+      "bytes": 1822,
+      "sha256": "2984a6b03a5eb710a4b36b9f33aec3561e0bd8030c369d0041a21a8185c93657"
+    },
+    "code/code/configs/submission_unified.yaml": {
+      "path": "code/code/configs/submission_unified.yaml",
+      "bytes": 941,
+      "sha256": "ed8a5db76253c63bba578e06713020e4dab4c39a9b3bd906b18e481810281ee7"
+    }
+  },
+  "persistent_store": {
+    "root": "~/track4/assets/p2_runtime_assets",
+    "embedding_2b": "~/models/Qwen3-VL-Embedding-2B",
+    "teacher_27b": "~/track4/assets/p2_runtime_assets/code/model_assets/bases/teacher_27b",
+    "teacher_lora": "~/track4/assets/p2_runtime_assets/code/model_assets/teacher_clean_full_20261011",
+    "embedding_2b_link": "~/track4/assets/p2_runtime_assets/code/model_assets/bases/embedding_2b"
+  },
+  "identity_checks": {
+    "embedding_2b_safetensors_sha256": "c73fa9caeddeb3ff831d46c085a7a5708343248ca777e90f2d486964464509c1",
+    "teacher_base_config_sha256": "191e0af232104ed8b65258cf3fb2b842e288008baca7633c11b82a1ac7203aab",
+    "teacher_base_index_sha256": "77042094076611b69791a610065f28b7013b8c621795fa86ddccc8bac7d1b9df",
+    "teacher_adapter_sha256": "458c2160eb78d6e14a475609100582bf4cde8155ba5757fb552c602cbf54b7a8",
+    "teacher_adapter_config_sha256": "02df6134b191db1a1be55c510772bbaba664b29e2d9efb7b3ef722578a6c7099"
+  },
+  "preflight": {
+    "selected_n": 1,
+    "assets_ok": true,
+    "sha_ok": true,
+    "gpu_ok": true,
+    "time_ok": true,
+    "resource_ok": true,
+    "reasons": [],
+    "gpu_free_gib": 95.998,
+    "time_estimate_s": 70.0
+  },
+  "score_binding": {
+    "result_sha256": "a633e7fb1d421c2b0819423f1cf167d3de6e2ce9c0382e20b5534dbd4aaf688b",
+    "official_score": 72.73,
+    "note": "result.json unchanged; only runtime config paths changed. PACKAGE_MANIFEST/RELEASE_MANIFEST/SOURCE_MANIFEST stay frozen at the 72.73 submission and still reference the pre-persistence config SHA 00ac974e."
+  },
+  "cleanup_20261020": {
+    "removed": [
+      "duplicate embedding_2b copy under track4_offline_assets (4.0G)",
+      "two duplicate submission tarballs with identical result SHA a633e7fb (710M)",
+      "two redundant rollback snapshots (704M)"
+    ],
+    "freed_approx": "5.4G",
+    "canonical_2b": "~/models/Qwen3-VL-Embedding-2B",
+    "kept_for_recovery": [
+      "~/track4/assets/p2_runtime_assets (27B, LoRA, 2B link)",
+      "~/track4/legacy/offline_wheels_20261020 (91 wheels, 329M)",
+      "~/track4/reports/verify_oss_assets.py"
+    ]
+  },
+  "recovery_script": "~/track4/reports/verify_oss_assets.py",
+  "superseded_by": "RUNTIME_POLICY_20261020.json",
+  "superseded_note": "Final runtime policy: ~/track4_current is the fast inference path; OSS is cold backup only. Configs were restored to /root with teacher config SHA 00ac974e. The OSS-path config change recorded here is historical."
+}

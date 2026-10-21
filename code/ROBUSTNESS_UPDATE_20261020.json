@@ -1,0 +1,59 @@
+{
+  "schema": "track4_robustness_update_v1",
+  "created_local": "2026-10-20T12:45:00+08:00",
+  "change": {
+    "file": "code/run.py",
+    "old_sha256": "684aaf89bc51302094ffdb020cb5a768ff1ee640098566d7c47610b981fa6dd8",
+    "new_sha256": "44e47e16563e2ce13a42f539a7dde3cc6e639b0e65590cd64209a05ad4ffdc4f",
+    "description": "Flat 桥梁/ images with no metadata and no nested bridge directory now fall back to bridgeName='未知桥梁' instead of aborting. Exact bridge identity still takes priority when metadata.json / asset_context.json / TRACK4_BRIDGE_NAME / a matching metadata source is available.",
+    "note": "image-stem bridgeName fallback + defectLocation fill + package mirror; model/gate unchanged"
+  },
+  "new_dataset_tests": [
+    {
+      "case": "flat, no metadata",
+      "input": "4 bridge + 2 rail",
+      "exit": 0,
+      "n_rows": 6,
+      "wall_s": 33,
+      "entry_s": 29.28,
+      "bridge_names": [
+        "未知桥梁"
+      ],
+      "teacher_selected": 0
+    },
+    {
+      "case": "flat, metadata.json",
+      "input": "4 bridge + 2 rail",
+      "exit": 0,
+      "n_rows": 6,
+      "wall_s": 33,
+      "entry_s": 29.17,
+      "bridge_names": [
+        "测试新桥（左幅）"
+      ],
+      "teacher_selected": 0
+    },
+    {
+      "case": "nested 桥梁/<bridge>/",
+      "input": "2 bridge + 1 rail",
+      "exit": 0,
+      "n_rows": 3,
+      "wall_s": 33,
+      "entry_s": 28.55,
+      "bridge_names": [
+        "测试新桥二（右幅）"
+      ],
+      "teacher_selected": 0
+    }
+  ],
+  "speed_anchors": {
+    "small_new_dataset": "28.5-29.3s entry, 33s wall (3-6 images, 2B load dominates)",
+    "online330_teacher_4": "175.2s entry (latest), 143.9s entry (earlier run)",
+    "teacher_conditional": "only severe-risk rows, max 6 / 5% / 120s; 0 selected keeps 2B speed"
+  },
+  "score_binding": {
+    "result_sha256": "a633e7fb1d421c2b0819423f1cf167d3de6e2ce9c0382e20b5534dbd4aaf688b",
+    "official_score": 72.73,
+    "note": "result.json unchanged. PACKAGE/RELEASE/SOURCE manifests remain frozen at the 72.73 submission and reference the old entry SHA 684aaf89."
+  }
+}

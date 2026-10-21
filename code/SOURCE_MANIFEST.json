@@ -1,0 +1,162 @@
+{
+  "configs/submission_unified.yaml": {
+    "bytes": 897,
+    "sha256": "e272724369e51f57c175212f5e0b476087f6e74d17122829bc0bf7790f0118d3"
+  },
+  "data/bridge_all_view/head_all.json": {
+    "bytes": 98451,
+    "sha256": "04d689bb6c4bf780c59807e6f2fd46f2c04471a9f2b7b200c410cb485ac1e911"
+  },
+  "data/bridge_all_view/head_all.npz": {
+    "bytes": 2935652,
+    "sha256": "92d5e3b0bc9eda978f145d160b5e5c8fecb28d165e755435188a7c4d83375b51"
+  },
+  "data/ontology/bridge_allowed_labels.json": {
+    "bytes": 2969,
+    "sha256": "007e4ad497dd49e23dbd5eb4f1861601a6d41a0b56a410496cfd1ed2202050b6"
+  },
+  "data/ontology/rail_allowed_labels.json": {
+    "bytes": 2016,
+    "sha256": "8260f9712def92c4dd647e8c083e0bfd58e4e4a40ef0ae6c592fc3cf6f5abf61"
+  },
+  "data/rail_head/rail_head_v1.json": {
+    "bytes": 1278,
+    "sha256": "c2f402c2fe67295a43531ef94a320542349e781519d8d9ed5efb0835d1feb252"
+  },
+  "data/rail_head/rail_head_v1.npz": {
+    "bytes": 182566,
+    "sha256": "906d71df761398f70ce5669e5a1943b352d9bfbf68fdebd3dfc9477fa01ca1bf"
+  },
+  "data/training_support/support_bank.json": {
+    "bytes": 895,
+    "sha256": "f6bad8c6bc234e79e45e2a7a80648e16d40852cf864d08d3066e670659e93baf"
+  },
+  "data/training_support/support_bank.npz": {
+    "bytes": 12220974,
+    "sha256": "8e6a633b71e91e320fb61eab9acdd9b77bc09f474fce7dc7ab1f9ccb5e6cba32"
+  },
+  "model_assets/base_identity.json": {
+    "bytes": 3623,
+    "sha256": "13a2f1c80db64c7e1f47ff8a7b8b69725de7b222f2013957e7308ef91797084f"
+  },
+  "model_assets/teacher_clean_full_20261011/adapter_config.json": {
+    "bytes": 1141,
+    "sha256": "02df6134b191db1a1be55c510772bbaba664b29e2d9efb7b3ef722578a6c7099"
+  },
+  "model_assets/teacher_clean_full_20261011/adapter_model.safetensors": {
+    "bytes": 467063552,
+    "sha256": "458c2160eb78d6e14a475609100582bf4cde8155ba5757fb552c602cbf54b7a8"
+  },
+  "prompts/skills/track4-inspect/SKILL.md": {
+    "bytes": 1146,
+    "sha256": "84efa57d8724ba8fcac92c4e6d84dede0c7df2d3606f9070565be0c070de99f4"
+  },
+  "pyproject.toml": {
+    "bytes": 220,
+    "sha256": "d42785583c528b2a754b605204b4d3194f17e9e3e73301cac8b9e73b2de56ff0"
+  },
+  "README.md": {
+    "bytes": 3746,
+    "sha256": "1460c641aa43c1666a095ca38593be5551927cf5383c6562a1135513e8b2cc81"
+  },
+  "run.py": {
+    "bytes": 7329,
+    "sha256": "a0d6e878763499986f481b902f3ecc44b2a689e0fd0ac86dc50d409ea49d8ceb"
+  },
+  "src/track4_contract_agent/__init__.py": {
+    "bytes": 49,
+    "sha256": "835c1c2c659178ad9327c65f40cf8211f7e3bf4a96b35cb808390c42338aefeb"
+  },
+  "src/track4_contract_agent/assets.py": {
+    "bytes": 1175,
+    "sha256": "3072f916aa3fed5b58e699b6a418de3f93a6c51f1fb3c6b88e5d21736c63f3a9"
+  },
+  "src/track4_contract_agent/models/__init__.py": {
+    "bytes": 49,
+    "sha256": "835c1c2c659178ad9327c65f40cf8211f7e3bf4a96b35cb808390c42338aefeb"
+  },
+  "src/track4_contract_agent/models/image_embedding.py": {
+    "bytes": 10622,
+    "sha256": "3ff5913bad891af830934bf325ec9a2aafd10c44758aa82bc27b0b2976810000"
+  },
+  "src/track4_contract_agent/models/local_qwen_vl_retrieval.py": {
+    "bytes": 9552,
+    "sha256": "ade8f17eaf4c6670c8bf735edc836c379ab92405d88efb330ad3b1003f511c20"
+  },
+  "src/track4_contract_agent/models/official_credentials.py": {
+    "bytes": 1389,
+    "sha256": "65eb8055af5bc5b568a54fa62fc73149f03d3956eb081dbbd2a95080fae8081b"
+  },
+  "src/track4_contract_agent/models/official_embedding_adapter.py": {
+    "bytes": 20621,
+    "sha256": "5fe554029d2acd31031f204e63b27466ffdb5c1a9ee546c3ebbc653dd3947f65"
+  },
+  "src/track4_contract_agent/runtime/__init__.py": {
+    "bytes": 49,
+    "sha256": "835c1c2c659178ad9327c65f40cf8211f7e3bf4a96b35cb808390c42338aefeb"
+  },
+  "src/track4_contract_agent/runtime/bridge_case_head.py": {
+    "bytes": 2993,
+    "sha256": "02c324f0019b9c21d1f3c7dbee72a144b045f60070cd6e130c28f7f727c06de0"
+  },
+  "src/track4_contract_agent/runtime/full_visual.py": {
+    "bytes": 17304,
+    "sha256": "2f40cc12423fef243a56b1142bfdcc66fa5ea6439012cafcd9a3a598da52e7af"
+  },
+  "src/track4_contract_agent/runtime/rail_embed_head.py": {
+    "bytes": 2433,
+    "sha256": "13a37df0efc82d0b6d210572e260cf86e705bdee06254c673841c53cabcbc02c"
+  },
+  "src/track4_contract_agent/runtime/selective_review.py": {
+    "bytes": 29096,
+    "sha256": "2cbcb677e9d17f86013706d78e6f6cb9a2a723eff88abf29210ea4c657c34224"
+  },
+  "src/track4_contract_agent/runtime/selective_teacher_worker.py": {
+    "bytes": 6607,
+    "sha256": "83ab9cb757e78e818fa69a9a49e6a6747c1801241df6f36ea42835dc9348c307"
+  },
+  "src/track4_contract_agent/runtime/tongagents_bridge.py": {
+    "bytes": 11323,
+    "sha256": "1c72637b6de3bbb948fd97091f2d1c40b176fead18dc5c43e9098a950177638d"
+  },
+  "src/track4_contract_agent/runtime/training_support.py": {
+    "bytes": 2522,
+    "sha256": "c52a83bdecd15677005d876d1e2045e09d3abf7e7bd06a4dda88d39f32e24b8c"
+  },
+  "vendor/tongagents/tongagents-2.7.19-cp312-cp312-linux_x86_64.whl": {
+    "bytes": 16378252,
+    "sha256": "d0f26364d58ebe5c22136d5753819c2484bb9db576034018ff3401305fad022f"
+  },
+  "vendor/wheels/qwen_vl_utils-0.0.14-py3-none-any.whl": {
+    "bytes": 8120,
+    "sha256": "5e28657bfd031e56bd447c5901b58ddfc3835285ed100f4c56580e0ade054e96"
+  },
+  "configs/submission_2b_only.yaml": {
+    "bytes": 503,
+    "sha256": "d36ef9710f524086f5eef44145e94a0bb4a38fa574a233411ef711a8fdb84800"
+  },
+  "configs/submission_risk_gate.yaml": {
+    "bytes": 748,
+    "sha256": "df515cd9f2bf29d35a714a2b1992787b3bbdb21661138d527cb48973aff6423c"
+  },
+  "configs/submission_risk_gate_preflight.yaml": {
+    "bytes": 1778,
+    "sha256": "34873f388f85774621b7cf800c06d37111e90d6134e10ee9e9983847af7282ea"
+  },
+  "configs/submission_risk_gate_teacher.yaml": {
+    "bytes": 1762,
+    "sha256": "00ac974edaeb4c728c0aa39f5e462a970e9a4e8ab0aec3576ba0796bab34e00e"
+  },
+  "configs/submission_risk_gate_teacher_offline.yaml": {
+    "bytes": 1726,
+    "sha256": "9c50a49c08045fb7dd4171a3c0e7251f50baf53b9ba728f395be08cf0744a8c7"
+  },
+  "configs/submission_risk_gate_teacher_small.yaml": {
+    "bytes": 1710,
+    "sha256": "03b2fb6ec388e674f5ca6bc038bd336134e079eef1af8d2055d8eae45a8988d6"
+  },
+  "src/track4_contract_agent/runtime/risk_gate.py": {
+    "bytes": 16528,
+    "sha256": "ff1868567d7620d2dde11ec49dcb5c6eb32fdcc34971af0886a192f0c4a09cb5"
+  }
+}

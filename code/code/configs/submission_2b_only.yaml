@@ -1,0 +1,19 @@
+# P0: independent, stable 2B-only main chain.
+# No 27B/LoRA paths, no teacher review, no risk gate.
+run_mode: 2b_only
+heads_only:
+  enabled: true
+  rail_weights: data/rail_head/rail_head_v1.npz
+  embedder: qwen3_vl_embedding_2b
+full_visual:
+  enabled: true
+  bridge_weights: data/bridge_all_view/head_all.npz
+  support_weights: data/training_support/support_bank.npz
+  save_vectors: true
+risk_gate:
+  enabled: false
+selective_review:
+  enabled: false
+tongagents:
+  enabled: true
+  react_hot_path: false

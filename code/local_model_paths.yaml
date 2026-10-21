@@ -1,0 +1,27 @@
+heads_only:
+  enabled: true
+  rail_weights: data/rail_head/rail_head_v1.npz
+  embedder: qwen3_vl_embedding_2b
+full_visual:
+  enabled: true
+  bridge_weights: data/bridge_all_view/head_all.npz
+  support_weights: data/training_support/support_bank.npz
+  save_vectors: true
+tongagents:
+  enabled: true
+  react_hot_path: false
+selective_review:
+  enabled: true
+  max_records: 6
+  max_fraction: 0.05
+  healthy_audit_records: 2
+  positive_audit_records: 2
+  conditional_healthy_correction: true
+  wall_budget_s: 120.0
+  per_image_s: 12.0
+  first_image_s: 25.0
+  max_new_tokens: 128
+  base_model: ~/track4_current/code/model_assets/bases/teacher_27b
+  adapter: ~/track4_current/code/model_assets/teacher_clean_full_20261011
+  adapter_sha256: 458c2160eb78d6e14a475609100582bf4cde8155ba5757fb552c602cbf54b7a8
+  adapter_config_sha256: 02df6134b191db1a1be55c510772bbaba664b29e2d9efb7b3ef722578a6c7099

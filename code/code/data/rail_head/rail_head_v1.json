@@ -1,0 +1,40 @@
+{
+  "head": "logreg_multiclass_full_string",
+  "C": 4.0,
+  "n_train_all": 800,
+  "dim": 2048,
+  "classes": [
+    "完好",
+    "支座锈蚀",
+    "渗水泛碱",
+    "破损",
+    "破损、支座锈蚀",
+    "破损、渗水泛碱",
+    "裂缝(混凝土裂缝)",
+    "裂缝(混凝土裂缝)、渗水泛碱",
+    "裂缝(混凝土裂缝)、破损",
+    "裂缝(混凝土裂缝)、破损、支座锈蚀",
+    "裂缝(混凝土裂缝)、破损、渗水泛碱",
+    "钢筋锈蚀",
+    "钢筋锈蚀、渗水泛碱",
+    "钢筋锈蚀、破损",
+    "钢筋锈蚀、破损、支座锈蚀",
+    "钢筋锈蚀、破损、渗水泛碱",
+    "钢筋锈蚀、裂缝(混凝土裂缝)",
+    "钢筋锈蚀、裂缝(混凝土裂缝)、破损",
+    "钢结构锈蚀",
+    "钢结构锈蚀、破损",
+    "钢结构锈蚀、裂缝(混凝土裂缝)",
+    "钢结构锈蚀、钢筋锈蚀、破损"
+  ],
+  "heldout": {
+    "fit": "clean_split train",
+    "eval": "clean_split dev+lockbox",
+    "n_fit": 514,
+    "n_eval": 286,
+    "string_exact": 0.5874,
+    "majority_baseline": 0.3811
+  },
+  "index_vectors_sha256": "31a4147f0f43e190c2e4a0425d6abd4c480761c70e68f9afb87c01b2e6ede99b",
+  "query_embedding": "QwenVLEmbedder(qwen3_vl_embedding_2b): jpeg longest_edge=1024 q85, l2-normalized"
+}

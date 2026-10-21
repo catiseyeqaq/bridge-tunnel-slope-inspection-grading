@@ -1,0 +1,30 @@
+{
+  "source_scope": "official_training_images_only",
+  "n_references": 3402,
+  "thresholds": {
+    "桥梁": 0.7252435088157654,
+    "轨道": 0.5885663324594498
+  },
+  "calibration": {
+    "桥梁": {
+      "n_calibration": 1723,
+      "groups": 4,
+      "mode": "train_split_other_asset_group_nearest",
+      "quantile": 0.01,
+      "min": 0.6383074522018433,
+      "median": 0.9140132069587708
+    },
+    "轨道": {
+      "n_calibration": 514,
+      "groups": 5,
+      "mode": "train_split_other_asset_group_nearest",
+      "quantile": 0.01,
+      "min": 0.44887176156044006,
+      "median": 0.844591498374939
+    }
+  },
+  "image_vectors_source_sha256": "31a4147f0f43e190c2e4a0425d6abd4c480761c70e68f9afb87c01b2e6ede99b",
+  "vector_labels_in_bank": false,
+  "new_test_vectors_in_bank": false,
+  "interpretation": "training support heuristic; not calibrated OOD or correctness probability"
+}

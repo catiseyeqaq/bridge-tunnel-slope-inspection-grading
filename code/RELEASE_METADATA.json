@@ -1,0 +1,19 @@
+{
+  "release_id": "P2_FINAL_SUBMIT_20261019",
+  "deployment_metadata_revision": "post_cleanup_r1",
+  "entry": "run.py",
+  "default_config": "code/configs/submission_risk_gate_teacher.yaml",
+  "run_mode": "risk_gate_teacher",
+  "full_visual": true,
+  "aerial_forced_healthy": false,
+  "fixed_healthy_or_disease_audit": false,
+  "ordinary_risk_starts_teacher": false,
+  "teacher": "Transformers + PEFT, trained matched LoRA, risk-qualified rows only",
+  "foundation_weights_in_upload": false,
+  "lora_in_upload": false,
+  "small_learned_assets_in_upload": 3,
+  "official_score": null,
+  "platform_submitted_by_this_task": false,
+  "recovery_model_store": "~/track4/assets/p2_runtime_assets",
+  "note": "Deployment metadata repair only; recognition source, frozen config, learned assets and shipped result/timing unchanged."
+}

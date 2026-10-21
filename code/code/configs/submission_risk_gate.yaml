@@ -1,0 +1,28 @@
+# P1: 2B main chain + multi-signal risk gate.
+# The gate only reports/selects candidates. It does not load or call the 27B.
+run_mode: risk_gate
+heads_only:
+  enabled: true
+  rail_weights: data/rail_head/rail_head_v1.npz
+  embedder: qwen3_vl_embedding_2b
+full_visual:
+  enabled: true
+  bridge_weights: data/bridge_all_view/head_all.npz
+  support_weights: data/training_support/support_bank.npz
+  save_vectors: true
+risk_gate:
+  enabled: true
+  max_records: 6
+  max_fraction: 0.05
+  wall_budget_s: 120.0
+  bridge_gray_width: 0.10
+  bridge_type_margin: 0.15
+  bridge_similarity: 0.55
+  rail_margin: 0.15
+  rail_entropy: 1.4
+  batch_low_support_fraction_note: 0.50
+selective_review:
+  enabled: false
+tongagents:
+  enabled: true
+  react_hot_path: false

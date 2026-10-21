@@ -1,0 +1,52 @@
+# P2-B: gate-selected rows -> real 27B (Transformers + PEFT), NOT run in P2-A.
+# Do not use this config until P2-A is accepted and the small-scale resource/
+# failure tests are complete.
+run_mode: risk_gate_teacher
+heads_only:
+  enabled: true
+  rail_weights: data/rail_head/rail_head_v1.npz
+  embedder: qwen3_vl_embedding_2b
+full_visual:
+  enabled: true
+  bridge_weights: data/bridge_all_view/head_all.npz
+  support_weights: data/training_support/support_bank.npz
+  save_vectors: true
+risk_gate:
+  enabled: true
+  max_records: 6
+  max_fraction: 0.05
+  wall_budget_s: 120.0
+  bridge_gray_width: 0.10
+  bridge_type_margin: 0.15
+  bridge_similarity: 0.55
+  rail_margin: 0.15
+  rail_entropy: 1.4
+  bridge_gray_width_severe: 0.01
+  bridge_type_margin_severe: 0.005
+  bridge_similarity_severe: 0.45
+  rail_margin_severe: 0.005
+  rail_entropy_severe: 2.25
+  support_shortfall_severe: 0.10
+selective_review:
+  enabled: true
+  mode: real
+  max_records: 6
+  max_fraction: 0.05
+  wall_budget_s: 120.0
+  per_image_s: 12.0
+  first_image_s: 25.0
+  max_new_tokens: 128
+  base_model: ~/track4_current/code/model_assets/bases/teacher_27b
+  adapter: ~/track4_current/code/model_assets/teacher_clean_full_20261011
+  adapter_sha256: 458c2160eb78d6e14a475609100582bf4cde8155ba5757fb552c602cbf54b7a8
+  adapter_config_sha256: 02df6134b191db1a1be55c510772bbaba664b29e2d9efb7b3ef722578a6c7099
+  base_config_sha256: 191e0af232104ed8b65258cf3fb2b842e288008baca7633c11b82a1ac7203aab
+  base_index_sha256: 77042094076611b69791a610065f28b7013b8c621795fa86ddccc8bac7d1b9df
+  teacher_preflight_gpu_gib: 60.0
+  teacher_preflight_load_s: 45.0
+  healthy_audit_records: 0
+  positive_audit_records: 0
+  conditional_healthy_correction: true
+tongagents:
+  enabled: true
+  react_hot_path: false

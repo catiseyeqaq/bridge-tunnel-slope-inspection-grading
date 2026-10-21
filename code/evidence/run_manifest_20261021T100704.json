@@ -1,0 +1,84 @@
+{
+  "run_id": "20261021T100704_4039815",
+  "mode": "risk_gate_teacher",
+  "input_dir": "/dataset/CIGAI-HR-025/决赛数据集1/赛题4/线下测试集",
+  "metadata": {
+    "path": "~/result/code/.runs/20261021T100704_4039815/runtime_metadata.json",
+    "sha256": "09a4f1301c8aa3cdac3622dd083993cc5de17b68bfd5aa59dfb30f180eb44fe0",
+    "rows": 490
+  },
+  "config": {
+    "path": "~/result/code/code/configs/submission_risk_gate_teacher_offline.yaml",
+    "sha256": "9c50a49c08045fb7dd4171a3c0e7251f50baf53b9ba728f395be08cf0744a8c7"
+  },
+  "model_2b": {
+    "path": "~/track4_current/code/model_assets/bases/embedding_2b",
+    "config_sha256": "9172f55b0b9cce70b7f67b10c58a408ccf3ec15c587e6efd4d5f41631237fded",
+    "weights_sha256": "c73fa9caeddeb3ff831d46c085a7a5708343248ca777e90f2d486964464509c1"
+  },
+  "python": "/usr/local/bin/python3",
+  "result_sha256": "6afb83365ca12ed97239ed0f60afeb0441923c9cae51523ecf44ee9ea40c0303",
+  "infer_time_sha256": "7f8208a4ff2c655ead5e387390c6d835e6d9c95857da253265c333475529f9ea",
+  "package_result": "~/result/result/result.json",
+  "mirror_package": true,
+  "infer_time_s": 200.30689978599548,
+  "inner_infer_time_s": 181.1079967021942,
+  "defect_location_filled_rows": 87,
+  "n_rows": 490,
+  "n_input_images": 490,
+  "n_embedded": 490,
+  "n_skipped_visual": 0,
+  "risk_gate": {
+    "enabled": true,
+    "n_rows": 490,
+    "n_risk_detected": 96,
+    "n_teacher_triggered": 8,
+    "n_teacher_selected": 6,
+    "n_budget_overflow": 2,
+    "n_uncertainty": 96,
+    "n_low_training_support": 0,
+    "n_severe_support_triggered": 0,
+    "n_dual_triggered": 0,
+    "n_dual_severe": 0,
+    "by_category": {
+      "桥梁": {
+        "n_rows": 370,
+        "n_risk_detected": 27,
+        "n_teacher_triggered": 6,
+        "n_low_training_support": 0,
+        "n_severe_support_triggered": 0,
+        "n_dual_triggered": 0,
+        "n_dual_severe": 0,
+        "n_teacher_selected": 4,
+        "n_budget_overflow": 2
+      },
+      "轨道": {
+        "n_rows": 120,
+        "n_risk_detected": 69,
+        "n_teacher_triggered": 2,
+        "n_low_training_support": 0,
+        "n_severe_support_triggered": 0,
+        "n_dual_triggered": 0,
+        "n_dual_severe": 0,
+        "n_teacher_selected": 2,
+        "n_budget_overflow": 0
+      }
+    },
+    "allocation": {
+      "bridge": 4,
+      "rail": 2,
+      "method": "both_half_proportional_capped",
+      "limit": 6
+    },
+    "teacher_started": false,
+    "teacher_skip_reason": "p1_no_teacher_started",
+    "teacher_required_if_p2": true,
+    "max_records": 6,
+    "max_fraction": 0.05,
+    "wall_budget_s": 120.0,
+    "threshold_source": "severe = 1% tail on dev+lockbox with train-only heads; support shortfall 0.10; no online330 tuning"
+  },
+  "entry_sha256": "44e47e16563e2ce13a42f539a7dde3cc6e639b0e65590cd64209a05ad4ffdc4f",
+  "finished_at": 1792548628.2669442,
+  "log": "~/result/code/.runs/20261021T100704_4039815/run.log"
+}

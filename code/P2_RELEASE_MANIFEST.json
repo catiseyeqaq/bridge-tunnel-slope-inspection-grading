@@ -1,0 +1,45 @@
+{
+  "package": "P2_FINAL_SUBMIT_20261019",
+  "created_at": "2026-10-19T19:52:34+0800",
+  "default_entry": "code/run.py",
+  "default_config": "code/code/configs/submission_risk_gate_teacher.yaml",
+  "entry_sha256": "684aaf89bc51302094ffdb020cb5a768ff1ee640098566d7c47610b981fa6dd8",
+  "frozen_engine_sha256": "d9838a19388d5f4365718e749e9ec699a4261b8ff37dabc9bcdc2f59bf7be4ab",
+  "config_sha256": "00ac974edaeb4c728c0aa39f5e462a970e9a4e8ab0aec3576ba0796bab34e00e",
+  "2b": {
+    "included": false,
+    "sha256": "c73fa9caeddeb3ff831d46c085a7a5708343248ca777e90f2d486964464509c1",
+    "external_candidates": [
+      "~/track4_current/code/model_assets/bases/embedding_2b",
+      "~/track4_current/code/model_assets/bases/embedding_2b",
+      "~/models/Qwen3-VL-Embedding-2B"
+    ],
+    "note": "system package contains no weights; 2B must be preloaded"
+  },
+  "27b": {
+    "base": "~/track4_current/code/model_assets/bases/teacher_27b",
+    "adapter": "~/track4_current/code/model_assets/teacher_clean_full_20261011",
+    "base_config_sha256": "191e0af232104ed8b65258cf3fb2b842e288008baca7633c11b82a1ac7203aab",
+    "base_index_sha256": "77042094076611b69791a610065f28b7013b8c621795fa86ddccc8bac7d1b9df",
+    "adapter_sha256": "458c2160eb78d6e14a475609100582bf4cde8155ba5757fb552c602cbf54b7a8",
+    "adapter_config_sha256": "02df6134b191db1a1be55c510772bbaba664b29e2d9efb7b3ef722578a6c7099",
+    "included": false,
+    "capability_if_missing": "2B main chain + optional 27B fallback"
+  },
+  "result_sample": {
+    "path": "result/result.json",
+    "sha256": "a633e7fb1d421c2b0819423f1cf167d3de6e2ce9c0382e20b5534dbd4aaf688b",
+    "note": "online330 deployment regression sample; not offline final"
+  },
+  "no_sglang": true,
+  "system_package": {
+    "source": "~/result contents",
+    "weights_included": false,
+    "structure": [
+      "code/",
+      "design/",
+      "result/"
+    ]
+  },
+  "capability_without_27b": "2B main chain + optional 27B fallback"
+}

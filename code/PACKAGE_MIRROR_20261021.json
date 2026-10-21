@@ -1,0 +1,25 @@
+{
+  "schema": "track4_package_mirror_v1",
+  "created_local": "2026-10-21T09:15:00+08:00",
+  "behavior": {
+    "default": "every successful non-dry run mirrors result.json + infer_time.json into ~/result/result",
+    "previous_pair": "archived under code/.runs/<run_id>/previous_result_package/ (or previous_result when --output-dir is the package result)",
+    "disable": "--no-mirror (use for rehearsals)"
+  },
+  "test_on_package_copy": {
+    "input": "6-image synthetic new dataset",
+    "external_output_rows": 6,
+    "package_result_rows_after_mirror": 6,
+    "package_result_sha_after_mirror": "d1d7387fe3e63c59e4ad678dc3bac9ca39e6122f624acf21133566bf77787c9e",
+    "archived_previous_package_result_sha": "a633e7fb1d421c2b0819423f1cf167d3de6e2ce9c0382e20b5534dbd4aaf688b",
+    "real_package_untouched_during_test": true
+  },
+  "current_package": {
+    "entry_sha256": "44e47e16563e2ce13a42f539a7dde3cc6e639b0e65590cd64209a05ad4ffdc4f",
+    "result_sha256": "6afb83365ca12ed97239ed0f60afeb0441923c9cae51523ecf44ee9ea40c0303",
+    "infer_time_sha256": "7f8208a4ff2c655ead5e387390c6d835e6d9c95857da253265c333475529f9ea",
+    "result_rows": 490,
+    "run_id": "20261021T100704_4039815",
+    "note": "final finals offline490 result: 370 bridgeName=image stem, 87 defectLocation; previous pre-run pair archived"
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "schema": "track4_tongagents_usage_proof_v1",
+  "package_root": "~/result",
+  "code_evidence": {
+    "outer_entry": {
+      "path": "code/run.py",
+      "sha256": "44e47e16563e2ce13a42f539a7dde3cc6e639b0e65590cd64209a05ad4ffdc4f"
+    },
+    "inner_entry": {
+      "path": "code/code/run.py",
+      "sha256": "a0d6e878763499986f481b902f3ecc44b2a689e0fd0ac86dc50d409ea49d8ceb",
+      "sys_path": "sys.path.insert(0, str(ROOT/\"src\"))"
+    },
+    "tongagents_bridge": {
+      "path": "code/code/src/track4_contract_agent/runtime/tongagents_bridge.py",
+      "sha256": "1c72637b6de3bbb948fd97091f2d1c40b176fead18dc5c43e9098a950177638d"
+    },
+    "full_visual": {
+      "path": "code/code/src/track4_contract_agent/runtime/full_visual.py",
+      "sha256": "2f40cc12423fef243a56b1142bfdcc66fa5ea6439012cafcd9a3a598da52e7af"
+    },
+    "vendor_wheel": {
+      "path": "code/code/vendor/tongagents/tongagents-2.7.19-cp312-cp312-linux_x86_64.whl",
+      "sha256": "d0f26364d58ebe5c22136d5753819c2484bb9db576034018ff3401305fad022f"
+    },
+    "config": {
+      "path": "code/code/configs/submission_risk_gate_teacher_offline.yaml",
+      "sha256": "9c50a49c08045fb7dd4171a3c0e7251f50baf53b9ba728f395be08cf0744a8c7",
+      "tongagents_enabled": true,
+      "react_hot_path": false
+    }
+  },
+  "code_refs": {
+    "import": "import tongagents; from tongagents.tools.tool_manager import tool; from tongagents.tools.skill.skill_loader import SkillLoader; from tongagents.memory.memory import SimpleMemory",
+    "tools": [
+      "embed_head_inspect",
+      "teacher_review"
+    ],
+    "skill": "track4-inspect",
+    "memory": "SimpleMemory.add_message(Message(...))",
+    "invoke": "heads_with_shell()/review_with_shell() -> _invoke -> via=\"tongagents_tool\"",
+    "full_visual": "bootstrap_tongagents(config); heads_with_shell(inspect_all); review_with_shell(review_selected)"
+  },
+  "run_evidence": {
+    "run_id": "20261021T100704_4039815",
+    "entry_sha256": "44e47e16563e2ce13a42f539a7dde3cc6e639b0e65590cd64209a05ad4ffdc4f",
+    "config_sha256": "9c50a49c08045fb7dd4171a3c0e7251f50baf53b9ba728f395be08cf0744a8c7",
+    "result_sha256": "6afb83365ca12ed97239ed0f60afeb0441923c9cae51523ecf44ee9ea40c0303",
+    "infer_time_sha256": "7f8208a4ff2c655ead5e387390c6d835e6d9c95857da253265c333475529f9ea",
+    "n_rows": 490,
+    "n_input_images": 490,
+    "n_embedded": 490,
+    "n_skipped_visual": 0,
+    "defect_location_filled_rows": 87,
+    "heads_only": "code/evidence/heads_only_20261021T100704.json",
+    "run_manifest": "code/evidence/run_manifest_20261021T100704.json"
+  },
+  "tongagents_runtime": {
+    "version": "2.7.19",
+    "tools": [
+      "embed_head_inspect",
+      "teacher_review"
+    ],
+    "skills": [
+      "track4-inspect"
+    ],
+    "memory": true,
+    "memory_records": 2,
+    "actual_calls": [
+      {
+        "tool": "embed_head_inspect",
+        "elapsed_s": 42.67879690602422,
+        "completed": true,
+        "result_sha256": "24c62720208e6a0b15376f826646e131b8f4a5dd524d1f0d9a9e270d8b70fc97"
+      },
+      {
+        "tool": "teacher_review",
+        "elapsed_s": 86.78937435895205,
+        "completed": true,
+        "result_sha256": "bb2ddcba9f59de1eda6e8e4e081c7fe7eeda0df5f7476b03bfee3d77e5808c66"
+      }
+    ],
+    "errors": [],
+    "selective_review_via": "tongagents_tool",
+    "selective_review_status": "completed",
+    "react_hot_path": false
+  },
+  "identity_checks": {
+    "entry_matches_package": "code/run.py SHA equals run_manifest.entry_sha256",
+    "config_matches_package": "config SHA equals run_manifest.config.sha256",
+    "result_matches_manifest": "result/result.json SHA equals run_manifest.result_sha256",
+    "infer_time_matches_manifest": "result/infer_time.json SHA equals run_manifest.infer_time_sha256"
+  },
+  "conclusion": "The submitted folder code is the code that produced the packaged result; it imports and invokes TongAgents SDK 2.7.19 through two tools (embed_head_inspect, teacher_review), loads the track4-inspect skill, uses SimpleMemory, and both tool calls completed with via=\"tongagents_tool\".",
+  "score": {
+    "scale": "0-100",
+    "rubric": "additive: 10 + 20 + 30 + 40 = 100",
+    "score": 100,
+    "breakdown": {
+      "10_basic_sdk": 10,
+      "20_numeric_via_sdk_orchestration": 20,
+      "30_single_tong_core": 30,
+      "40_combined_tong_core": 40
+    },
+    "reason": "embed_head_inspect is registered via @tool and invoked through TongAgents; its internal 2B/head/case-bank numeric work counts as SDK-orchestrated numeric processing per the user rule",
+    "score_card": "code/evidence/TONGAGENTS_SDK_SCORE_20261021.md"
+  }
+}

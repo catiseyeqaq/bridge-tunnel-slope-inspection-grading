@@ -1,0 +1,82 @@
+{
+  "schema": "track4_runtime_policy_v1",
+  "created_local": "2026-10-20T13:10:00+08:00",
+  "policy": "OSS (~/) is cold backup only. Inference reads model weights from ~/track4_current (local NVMe) for speed. After a reboot or container drift, restore the weights from OSS to /root, verify SHA, then run.",
+  "runtime_paths": {
+    "embedding_2b": "~/track4_current/code/model_assets/bases/embedding_2b",
+    "teacher_27b": "~/track4_current/code/model_assets/bases/teacher_27b",
+    "teacher_lora": "~/track4_current/code/model_assets/teacher_clean_full_20261011"
+  },
+  "oss_backup": {
+    "embedding_2b": "~/models/Qwen3-VL-Embedding-2B",
+    "teacher_27b": "~/track4/assets/track4_offline_assets_20261017/teacher_27b",
+    "teacher_lora": "~/track4/assets/teacher_clean_full_20261011"
+  },
+  "restore_script": "~/track4/reports/restore_models_to_root.sh",
+  "restore_commands": [
+    "bash ~/track4/reports/restore_models_to_root.sh --verify-only",
+    "bash ~/track4/reports/restore_models_to_root.sh"
+  ],
+  "identity": {
+    "embedding_2b_safetensors_sha256": "c73fa9caeddeb3ff831d46c085a7a5708343248ca777e90f2d486964464509c1",
+    "teacher_base_config_sha256": "191e0af232104ed8b65258cf3fb2b842e288008baca7633c11b82a1ac7203aab",
+    "teacher_base_index_sha256": "77042094076611b69791a610065f28b7013b8c621795fa86ddccc8bac7d1b9df",
+    "teacher_adapter_sha256": "458c2160eb78d6e14a475609100582bf4cde8155ba5757fb552c602cbf54b7a8",
+    "teacher_adapter_config_sha256": "02df6134b191db1a1be55c510772bbaba664b29e2d9efb7b3ef722578a6c7099",
+    "teacher_shards": "18/18"
+  },
+  "config": {
+    "teacher_config_sha256": "00ac974edaeb4c728c0aa39f5e462a970e9a4e8ab0aec3576ba0796bab34e00e",
+    "note": "restored from configs_pre_persist_20261020; matches the 00ac974e value used by the 72.73 submission"
+  },
+  "entry": {
+    "sha256": "44e47e16563e2ce13a42f539a7dde3cc6e639b0e65590cd64209a05ad4ffdc4f",
+    "note": "image-stem bridgeName fallback + defectLocation fill; model/gate unchanged"
+  },
+  "result": {
+    "sha256": "a633e7fb1d421c2b0819423f1cf167d3de6e2ce9c0382e20b5534dbd4aaf688b",
+    "official_score": 72.73
+  },
+  "supersedes": "PERSISTENCE_UPDATE_20261020.json OSS-path config change; OSS paths are backup only",
+  "workspace_model_inventory": {
+    "policy": "one workspace backup copy per required model",
+    "embedding_2b": "~/models/Qwen3-VL-Embedding-2B (4.0G)",
+    "teacher_27b": "~/track4/assets/track4_offline_assets_20261017/teacher_27b (51.75G, 18/18 shards)",
+    "teacher_lora": "~/track4/assets/teacher_clean_full_20261011 (446M)",
+    "bridge_library": "~/result/code/code/data (15M)",
+    "workspace_model_total_approx": "56.2G / 100G quota",
+    "removed_unused": [
+      "Qwen3-VL-Reranker-2B (4.0G)",
+      "BAAI-bge-small-zh-v1.5 (92M)"
+    ]
+  },
+  "package_result_mirror": {
+    "enabled_by_default": true,
+    "target": "~/result/result",
+    "previous_pair_archive": "code/.runs/<run_id>/previous_result_package/",
+    "disable_flag": "--no-mirror",
+    "reason": "the evaluation packages ~/result contents"
+  },
+  "defect_location_fill": {
+    "enabled": true,
+    "rule": "empty bridge defectLocation filled from component-position filenames (第N跨/N号墩/跨中梁底/墩支座)",
+    "side_prefix": "kept",
+    "expected_rows_finals490": 87,
+    "unaffected_fields": [
+      "bridgeName",
+      "defectType",
+      "defectDescription",
+      "ratingScale(1-5)",
+      "questionCategory",
+      "filename"
+    ],
+    "current_package_result_sha256": "6afb83365ca12ed97239ed0f60afeb0441923c9cae51523ecf44ee9ea40c0303",
+    "expected_after_next_run_sha256": "6afb83365ca12ed97239ed0f60afeb0441923c9cae51523ecf44ee9ea40c0303",
+    "actual_filled_rows": 87
+  },
+  "bridge_name_fallback": {
+    "rule": "flat 桥梁/ without metadata/nested dirs: bridgeName = image stem",
+    "applies_to_finals490": 370,
+    "note": "image-name fallback, not a verified bridge identity; explicit metadata/TRACK4_BRIDGE_NAME still overrides"
+  }
+}

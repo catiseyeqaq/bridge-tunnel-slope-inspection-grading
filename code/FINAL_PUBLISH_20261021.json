@@ -1,0 +1,54 @@
+{
+  "schema": "track4_final_publish_v1",
+  "created_local": "2026-10-21T09:25:00+08:00",
+  "input": "/dataset/CIGAI-HR-025/决赛数据集1/赛题4/线下测试集",
+  "config": "~/result/code/code/configs/submission_risk_gate_teacher_offline.yaml",
+  "run_id": "20261021T100704_4039815",
+  "exit_status": "completed",
+  "result": {
+    "path": "~/result/result/result.json",
+    "sha256": "6afb83365ca12ed97239ed0f60afeb0441923c9cae51523ecf44ee9ea40c0303",
+    "rows": 490,
+    "categories": {
+      "桥梁": 370,
+      "轨道": 120
+    },
+    "bridge_names": "image stem (370 unique values)",
+    "defect_location_nonempty": 87,
+    "note": "bridgeName is the image-name fallback; defectLocation from component filenames"
+  },
+  "infer_time": {
+    "path": "~/result/result/infer_time.json",
+    "sha256": "7f8208a4ff2c655ead5e387390c6d835e6d9c95857da253265c333475529f9ea",
+    "infer_time_s": 200.30689978599548
+  },
+  "teacher": {
+    "selected": 6,
+    "started": 6,
+    "completed": 6,
+    "accepted": 6,
+    "changed": 4,
+    "healthy_corrections": 1
+  },
+  "resources": {
+    "oom_kill": 0,
+    "gpu_after_mib": 2
+  },
+  "previous_pair": {
+    "result_sha256": "36cc1b4886108a241c4032e79e7651066efb7b03896342d8dde43ea61cc06aec",
+    "infer_time_sha256": "df8a383dfc358aef1450bf7aed51b4de223cb509ca31635898ccec802bcf742a",
+    "archive": "~/track4/evidence/runs/final_user_run_20261021T100704/20261021T100704_4039815/previous_result",
+    "note": "pre-run finals result; rollback by copying both files back"
+  },
+  "manifest_note": "P2_RELEASE_MANIFEST/PACKAGE_MANIFEST remain frozen at the 72.73 online330 submission; the packed result is now the 490-row finals prediction.",
+  "postprocess_defectLocation": {
+    "implemented_in_run_py_sha256": "c20aca15414349e9266949254ae7cb5b80f849bd6547c640609f710c5b018500",
+    "expected_filled_rows": 87,
+    "expected_result_sha256": "6afb83365ca12ed97239ed0f60afeb0441923c9cae51523ecf44ee9ea40c0303",
+    "current_package_result_sha256": "6afb83365ca12ed97239ed0f60afeb0441923c9cae51523ecf44ee9ea40c0303",
+    "note": "the run completed and published; 87 defectLocation rows filled; bridgeName image stems for 370 bridge rows",
+    "bridge_name_fallback": "image stem (370 rows)",
+    "actual_filled_rows": 87,
+    "actual_result_sha256": "6afb83365ca12ed97239ed0f60afeb0441923c9cae51523ecf44ee9ea40c0303"
+  }
+}
