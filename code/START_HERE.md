@@ -1,5 +1,8 @@
 # Current P2 deployment and recovery
 
+For a GitHub checkout, start with [the portable entry and setup](../REPRODUCIBILITY.md).
+The instructions below describe the original contest machine and its pre-provisioned assets.
+
 The authoritative inspection entry is code/run.py in the submission root. It uses
 the frozen risk_gate_teacher configuration: all-image 2B inspection, severe-risk
 selection, budgeted trained-27B review, and final seven-field validation.

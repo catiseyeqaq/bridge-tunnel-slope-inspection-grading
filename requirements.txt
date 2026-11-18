@@ -1,0 +1,9 @@
+# Install the CPU, CUDA, or vendor PPU PyTorch and torchvision pair first.
+-r requirements-demo.txt
+transformers==5.2.0
+huggingface-hub==1.7.2
+tokenizers==0.22.2
+accelerate==1.12.0
+safetensors==0.7.0
+qwen-vl-utils==0.0.14
+av==19.0.2

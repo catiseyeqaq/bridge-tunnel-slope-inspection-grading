@@ -5,7 +5,7 @@ import numpy as np
 
 
 class TrainingSupport:
-    def __init__(self,path):
+    def __init__(self, path, *, expected_scope="official_training_images_only"):
         self.path=Path(path)
         with np.load(self.path,allow_pickle=False) as z:
             self.vectors=np.asarray(z['vectors'],dtype=np.float32)
@@ -18,7 +18,8 @@ class TrainingSupport:
         if np.any(norm<1e-8):raise ValueError('Zero support vector')
         self.vectors=self.vectors/norm
         if set(self.categories)!={'桥梁','轨道'}:raise ValueError('Incomplete support categories')
-        if self.meta['source_scope']!='official_training_images_only':raise ValueError('Unsafe reference scope')
+        if self.meta["source_scope"] != expected_scope:
+            raise ValueError("Unexpected training support scope")
 
     def annotate(self,vectors,evidence):
         x=np.asarray(vectors,dtype=np.float32)

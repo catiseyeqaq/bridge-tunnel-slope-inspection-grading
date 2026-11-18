@@ -1,8 +1,10 @@
 """P2-A scheduler/preflight tests. No real 27B is loaded or started."""
+import hashlib
 import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import Mock, patch
 
 import yaml
 
@@ -23,11 +25,29 @@ def rail_evidence():
             "probability_margin": 0.90, "entropy": 0.10}
 
 
-class P2APreflightTest(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.raw = yaml.safe_load(CONFIG.read_text(encoding="utf-8"))["selective_review"]
-        cls.cfg = checked_config(cls.raw)
+class LocalTeacherFixture(unittest.TestCase):
+    def setUp(self):
+        super().setUp()
+        scratch = tempfile.TemporaryDirectory()
+        self.addCleanup(scratch.cleanup)
+        self.raw = yaml.safe_load(CONFIG.read_text(encoding="utf-8"))["selective_review"]
+        root = Path(scratch.name)
+        for key in ("base_model", "adapter"):
+            self.raw[key] = str(root / key)
+            Path(self.raw[key]).mkdir()
+        for group, filename, sha_key in (
+            ("base_model", "config.json", "base_config_sha256"),
+            ("base_model", "model.safetensors.index.json", "base_index_sha256"),
+            ("adapter", "adapter_model.safetensors", "adapter_sha256"),
+            ("adapter", "adapter_config.json", "adapter_config_sha256"),
+        ):
+            payload = f"fixture {filename}".encode()
+            (Path(self.raw[group]) / filename).write_bytes(payload)
+            self.raw[sha_key] = hashlib.sha256(payload).hexdigest()
+        self.cfg = checked_config(self.raw)
+
+
+class P2APreflightTest(LocalTeacherFixture):
 
     def test_four_selected_passes_time_budget(self):
         result = preflight_teacher(self.cfg, 4, gpu_free_gib=90.0)
@@ -71,12 +91,16 @@ class P2APreflightTest(unittest.TestCase):
         self.assertFalse(result["resource_ok"])
 
 
-class P2ASchedulerTest(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.raw = yaml.safe_load(CONFIG.read_text(encoding="utf-8"))["selective_review"]
-        cls.raw = dict(cls.raw)
-        cls.raw["mode"] = "preflight"
+class P2ASchedulerTest(LocalTeacherFixture):
+    def setUp(self):
+        super().setUp()
+        self.raw["mode"] = "preflight"
+        device = patch(
+            "track4_contract_agent.runtime.selective_review.preflight_teacher",
+            side_effect=lambda config, count: preflight_teacher(config, count, gpu_free_gib=90.0),
+        )
+        device.start()
+        self.addCleanup(device.stop)
 
     def test_only_gate_selected_rows_are_scheduled(self):
         rows = [rail_row() for _ in range(4)]
@@ -93,13 +117,13 @@ class P2ASchedulerTest(unittest.TestCase):
             self.assertEqual(summary["teacher_completed"], 0)
             self.assertEqual(summary["teacher_accepted"], 0)
             self.assertEqual(summary["status"], "preflight_passed_not_started")
-            routing = json.loads((root / "routing.json").read_text())
+            routing = json.loads((root / "routing.json").read_text(encoding="utf-8"))
             self.assertEqual(routing["source"], "risk_gate")
             self.assertEqual([d["row_index"] for d in routing["selected"]], [2, 0])
             self.assertFalse((root / "request.json").exists())
             self.assertFalse((root / "responses.jsonl").exists())
             self.assertFalse((root / "responses.log").exists())
-            decisions = json.loads((root / "decisions.json").read_text())
+            decisions = json.loads((root / "decisions.json").read_text(encoding="utf-8"))
             self.assertTrue(all(d["status"] == "not_started_preflight" for d in decisions))
             self.assertTrue(all(d["teacher_started"] is False for d in decisions))
             self.assertEqual(merged, rows)
@@ -126,6 +150,21 @@ class P2ASchedulerTest(unittest.TestCase):
                     {"轨道": {"裂缝"}}, None, self.raw, Path(tmp),
                     selected_rows=[9], run_mode="preflight")
 
+    def test_missing_assets_preserve_initial_prediction(self):
+        rows = [rail_row()]
+        worker = Mock()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            raw = {**self.raw, "adapter": str(root / "missing")}
+            merged, summary = apply_selective_review(
+                rows, [rail_evidence()], ["image_0.jpg"], {"轨道": {"裂缝"}}, None,
+                raw, root, selected_rows=[0], run_mode="real", worker_runner=worker,
+            )
+            self.assertEqual(merged, rows)
+            self.assertFalse(summary["teacher_started"])
+            self.assertIn("teacher_assets_missing", summary["skip_reason"])
+            worker.assert_not_called()
+
     def test_real_interface_with_simulated_worker(self):
         """Simulated worker only; not a real TongAgents call or audit log."""
         rows = [rail_row()]
@@ -134,7 +173,7 @@ class P2ASchedulerTest(unittest.TestCase):
             root = Path(tmp)
 
             def fake_runner(request_path, response_path, cfg, worker_path):
-                payload = json.loads(Path(request_path).read_text())
+                payload = json.loads(Path(request_path).read_text(encoding="utf-8"))
                 response = {
                     "row_index": 0, "ok": True,
                     "request_sha256": payload["request_sha256"],

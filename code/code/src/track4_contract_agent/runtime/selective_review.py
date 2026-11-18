@@ -273,7 +273,8 @@ def preflight_teacher(cfg, selected_n, *, gpu_free_gib=None):
         actual = None
         ok = False
         if exists:
-            actual = hashlib.sha256(path.read_bytes()).hexdigest()
+            with path.open("rb") as stream:
+                actual = hashlib.file_digest(stream, "sha256").hexdigest()
             ok = (expected == actual) if expected else True
         checks.append({"name": name, "path": str(path), "exists": exists,
                        "expected_sha256": expected, "actual_sha256": actual, "ok": ok})
@@ -298,13 +299,12 @@ def preflight_teacher(cfg, selected_n, *, gpu_free_gib=None):
 
     if gpu_free_gib is None:
         try:
-            completed = subprocess.run(
-                ["nvidia-smi", "--query-gpu=memory.free", "--format=csv,noheader,nounits"],
-                capture_output=True, text=True, timeout=10, check=True,
-            )
-            first = completed.stdout.strip().splitlines()[0]
-            gpu_free_gib = round(float(first) / 1024.0, 3)
-        except Exception:
+            import torch
+
+            if torch.cuda.is_available():
+                # The worker loads onto logical device 0 after CUDA_VISIBLE_DEVICES.
+                gpu_free_gib = round(torch.cuda.mem_get_info(0)[0] / 2**30, 3)
+        except (ImportError, OSError, RuntimeError):
             gpu_free_gib = None
     gpu_ok = None if gpu_free_gib is None else gpu_free_gib >= float(cfg["teacher_preflight_gpu_gib"])
     if gpu_ok is None:

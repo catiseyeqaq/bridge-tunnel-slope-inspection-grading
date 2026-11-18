@@ -64,12 +64,12 @@ class DynamicInputTest(unittest.TestCase):
             source = root / "old_metadata.json"
             source.write_text('[{"questionCategory":"桥梁",'
                               '"imageRelativePath":"old/桥梁/same.jpg",'
-                              '"filename":"same.jpg","bridgeName":"旧桥"}]')
+                              '"filename":"same.jpg","bridgeName":"旧桥"}]', encoding="utf-8")
             self.assertIsNone(ENTRY._discover_bridge_names(
                 input_dir, input_dir / "桥梁", sources=[source]))
             source.write_text('[{"questionCategory":"桥梁",'
                               '"imageRelativePath":"桥梁/same.jpg",'
-                              '"filename":"same.jpg","bridgeName":"新桥"}]')
+                              '"filename":"same.jpg","bridgeName":"新桥"}]', encoding="utf-8")
             self.assertEqual(ENTRY._discover_bridge_names(
                 input_dir, input_dir / "桥梁", sources=[source]),
                 {"桥梁/same.jpg": "新桥"})

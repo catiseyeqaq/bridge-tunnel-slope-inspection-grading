@@ -34,3 +34,17 @@ __pycache__/
 *.tar.gz
 *.zip
 *.whl
+*.npy
+*.onnx
+*.gguf
+*.pem
+/.venv/
+/models/
+/local_assets/
+/input/
+/inputs/
+/samples/
+/outputs/
+/demo_output/
+/.track4-*/
+**/.runs/

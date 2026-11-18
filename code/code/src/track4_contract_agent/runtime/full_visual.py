@@ -150,7 +150,18 @@ def validate_result(rows, meta, allowed):
             raise RuntimeError(f"Bridge identity/healthy-rating contract failed at {i}")
 
 
-def run_full_visual(input_dir: Path, metadata: Path, output_dir: Path, config: Mapping[str, Any], agent_root: Path):
+def run_full_visual(
+    input_dir: Path,
+    metadata: Path,
+    output_dir: Path,
+    config: Mapping[str, Any],
+    agent_root: Path,
+    *,
+    data_dir: Path | None = None,
+    image_backend=None,
+    use_tongagents: bool = True,
+    support_scope: str = "official_training_images_only",
+):
     started = time.perf_counter()
     meta = json.loads(Path(metadata).read_text(encoding="utf-8"))
     paths = checked_inputs(meta, input_dir)
@@ -159,21 +170,26 @@ def run_full_visual(input_dir: Path, metadata: Path, output_dir: Path, config: M
     if (output_dir / "result.json").exists():
         raise FileExistsError("Use a fresh output directory; refusing to leave stale successful results")
     from track4_contract_agent.models.local_qwen_vl_retrieval import get_local_embedder
+    data_dir = data_dir if data_dir is not None else agent_root / "data"
     def _allowed_labels(root):
         result={}
         for category,name in ((BRIDGE,'bridge_allowed_labels.json'),(RAIL,'rail_allowed_labels.json')):
-            d=json.loads((root/'data/ontology'/name).read_text(encoding='utf-8'))
+            d=json.loads((root/'ontology'/name).read_text(encoding='utf-8'))
             result[category]=d['allowed_labels']
         return result
     # Fresh JPEGs for every image in this run; no prediction/vector reuse.
-    from concurrent.futures import ThreadPoolExecutor
-    from track4_contract_agent.models.image_embedding import resolve_embedder
     early_cfg = dict(config["heads_only"])
-    embedder = resolve_embedder(str(early_cfg.get("embedder") or "qwen3_vl_embedding_2b"))
-    with ThreadPoolExecutor(max_workers=1, thread_name_prefix="fresh-jpeg") as pool:
-        pending = pool.submit(embedder._prepare_data_urls, paths)
-        get_local_embedder()  # Still entirely within the run.py timer.
-        embedder._prepared_image_urls = dict(zip(paths, pending.result()))
+    if image_backend is None:
+        from concurrent.futures import ThreadPoolExecutor
+        from track4_contract_agent.models.image_embedding import resolve_embedder
+
+        embedder = resolve_embedder(str(early_cfg.get("embedder") or "qwen3_vl_embedding_2b"))
+        with ThreadPoolExecutor(max_workers=1, thread_name_prefix="fresh-jpeg") as pool:
+            pending = pool.submit(embedder._prepare_data_urls, paths)
+            get_local_embedder()
+            embedder._prepared_image_urls = dict(zip(paths, pending.result()))
+    else:
+        embedder = image_backend
     loaded = time.perf_counter()
     from track4_contract_agent.runtime.rail_embed_head import RailEmbedHead
     from track4_contract_agent.runtime.tongagents_bridge import bootstrap_tongagents, heads_with_shell, review_with_shell
@@ -182,9 +198,9 @@ def run_full_visual(input_dir: Path, metadata: Path, output_dir: Path, config: M
     rail = RailEmbedHead.load(agent_root / cfg["rail_weights"])
     bridge = AllViewBridgeHead.load(agent_root / full_cfg["bridge_weights"])
     from track4_contract_agent.runtime.training_support import TrainingSupport
-    support=TrainingSupport(agent_root/full_cfg['support_weights'])
-    allowed = _allowed_labels(agent_root)
-    shell = bootstrap_tongagents(dict(config))
+    support = TrainingSupport(agent_root / full_cfg["support_weights"], expected_scope=support_scope)
+    allowed = _allowed_labels(data_dir)
+    shell = bootstrap_tongagents(dict(config)) if use_tongagents else None
     # embedder above holds only JPEGs freshly prepared within this entry.
     holder = {}
 
@@ -229,7 +245,7 @@ def run_full_visual(input_dir: Path, metadata: Path, output_dir: Path, config: M
                 "bridge_rows": sum(m["questionCategory"] == BRIDGE for m in meta),
                 "bridge_disease": sum(r["questionCategory"] == BRIDGE and r["defectType"] != HEALTHY for r in rows)}
 
-    info = heads_with_shell(inspect_all)
+    info = heads_with_shell(inspect_all) if shell is not None else inspect_all()
     # The SDK bridge may catch errors; never allow an empty or partial tool result.
     if "rows" not in holder or not isinstance(info, dict) or info.get("n_embedded") != len(meta):
         raise RuntimeError("TongAgents visual tool did not complete all rows")
@@ -273,7 +289,7 @@ def run_full_visual(input_dir: Path, metadata: Path, output_dir: Path, config: M
                         holder['rows'],holder['evidence'],paths,allowed,bridge,review_cfg,output_dir,
                         selected_rows=selected_rows, run_mode="real")
                     return review_info
-                info['selective_review']=review_with_shell(review_selected)
+                info["selective_review"] = review_with_shell(review_selected) if shell is not None else review_selected()
             validate_result(holder["rows"], meta, allowed)
             info["final_bridge_disease"] = sum(r["questionCategory"] == BRIDGE and
                                                r["defectType"] != HEALTHY for r in holder["rows"])
@@ -281,7 +297,9 @@ def run_full_visual(input_dir: Path, metadata: Path, output_dir: Path, config: M
         info["final_bridge_disease"] = info.get("bridge_disease")
     from track4_contract_agent.models.local_qwen_vl_retrieval import PROFILE_SECONDS
     info["runtime_profile"] = dict(PROFILE_SECONDS)
-    info.update(tongagents=shell.snapshot(), model_load_and_prefetch_s=loaded-started,
+    info.update(tongagents=shell.snapshot() if shell is not None else {
+                    "enabled": False, "execution": "direct_python", "actual_calls": []},
+                model_load_and_prefetch_s=loaded-started,
                 bridge_head_sha256=hashlib.sha256((agent_root/full_cfg["bridge_weights"]).read_bytes()).hexdigest(),
                 decision_inputs="image_embedding_only; category selects rail vs bridge",
                 filename_routing=False, bridge_training=bridge.model_meta.get("training_scope"))

@@ -1,0 +1,5 @@
+# Preserve archived byte hashes in a default Windows checkout.
+* text=auto eol=lf
+code/code/data/** -text
+code/evidence/*.json -text
+result/*.json -text
